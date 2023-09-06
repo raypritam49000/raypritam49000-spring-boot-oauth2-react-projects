@@ -1,0 +1,63 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/spring_oauth2_project?createDatabaseIfNotExist=true&autoReconnect=true&useSSL=false&serverTimezone=UTC
+    username: root
+    password: 0003pray
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        show_sql: true
+        format_sql: true
+        hbm2ddl.auto: update
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: 874287232303-vdqj8fjjg623jm89bhd2hhgqbhot2cja.apps.googleusercontent.com
+            clientSecret: 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
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - email
+              - profile
+          facebook:
+            clientId: 599924718880412
+            clientSecret: edbcd5a69827b88c4c7bbf84f6ccb92e
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - email
+              - public_profile
+          github:
+            clientId: Iv1.115d5bcee9733d6c
+            clientSecret: 28ccc8d11dd522d4944f5f3e0b868ddeac996dd6
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - user:email
+              - read:user
+        provider:
+          facebook:
+            authorizationUri: https://www.facebook.com/v17.0/dialog/oauth
+            tokenUri: https://graph.facebook.com/oauth/access_token
+            userInfoUri: https://graph.facebook.com/v17.0/me?fields=id,first_name,middle_name,last_name,name,email,picture.width(250).height(250)
+app:
+  auth:
+    tokenSecret: 04ca023b39512e46d0c2cf4b48d5aac61d34302994c87ed4eff225dcf3b0a218739f3897051a057f9b846a69ea2927a587044164b7bae5e1306219d50b588cb1
+    tokenExpirationMsec: 864000000
+  cors:
+    allowedOrigins: http://localhost:3000,http://localhost:8080
+  oauth2:
+    # After successfully authenticating with the OAuth2 Provider,
+    # we'll be generating an auth token for the user and sending the token to the
+    # redirectUri mentioned by the client in the /oauth2/authorize request.
+    # We're not using cookies because they won't work well in mobile clients.
+    authorizedRedirectUris:
+      - http://localhost:3000/oauth2/redirect
+      - myandroidapp://oauth2/redirect
+      - myiosapp://oauth2/redirect
